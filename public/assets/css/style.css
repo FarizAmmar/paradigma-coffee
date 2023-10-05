@@ -1,0 +1,58 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+* {
+    font-family: "Poppins", sans-serif;
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 200px;
+}
+
+.img-fluid {
+    object-fit: cover;
+    height: 70px;
+    width: 70px;
+}
+
+#menu-card:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+/* Quanity Control */
+.cs-increase,
+.cs-decrease {
+    border-radius: 100%;
+    height: 30px;
+    width: 30px;
+    border: none;
+}
+
+.cs-increase:hover,
+.cs-decrease:hover {
+    border-radius: 100%;
+    height: 30px;
+    width: 30px;
+    border: none;
+    background-color: bisque;
+}
+
+.cs-form-quantity {
+    width: 50px;
+    border: none;
+}
+
+.cs-form-quantity::-webkit-inner-spin-button,
+.cs-form-quantity::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+.cs-table-number::-webkit-inner-spin-button,
+.cs-table-number::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}

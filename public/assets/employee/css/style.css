@@ -1,0 +1,58 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+* {
+    font-family: "Poppins", sans-serif;
+}
+
+/* Login background */
+
+/* Side Left */
+.cs-main-bg {
+    background-color: #51707a;
+}
+
+.cs-wave {
+    height: 250px;
+    background-image: url("/assets/images/background/wave.svg");
+    background-size: cover;
+    background-position: bottom;
+}
+
+.cs-btn-primary {
+    background-color: #435c64 !important;
+    color: white;
+}
+
+.cs-btn-primary:hover {
+    background-color: #33484e !important;
+    color: rgb(212, 212, 212);
+}
+
+/* Side Right */
+.cs-background {
+    height: 100vh;
+    background-position: right;
+    background-size: cover;
+    background-image: url("/assets/images/background/Wallapper.png");
+}
+
+/* Form Login */
+.cs-form-control:focus {
+    border-color: #7a5b51;
+    box-shadow: 0 0 10px #7a5b51;
+}
+
+/* Button Custom */
+.cs-btn-color1 {
+    background-color: #86979f !important;
+}
+
+.cs-btn-color1:hover {
+    background-color: #72828a !important;
+}
+
+/* Text Shadow */
+.text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: #fff;
+}
