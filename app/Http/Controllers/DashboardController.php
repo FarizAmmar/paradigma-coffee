@@ -71,6 +71,9 @@ class DashboardController extends Controller
         $user->access = $validation['new-access'];
 
         $user->save();
+        if ($user->save()) {
+            session()->forget('ShowNewEntries');
+        }
 
         return back()->with('success', 'The record has been successfully saved.');
     }

@@ -1,6 +1,7 @@
 @extends('employee.layouts.master')
 
 @section('container')
+    {{-- Notification Error Success --}}
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
             {{ session('success') }}
@@ -14,52 +15,69 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+
     <div class="{{ session('ShowNewEntries') ? 'd-none' : '' }} card mb-3 mt-3 shadow"
         style="border: none; border-radius: 30px;" id="view-form">
         <div class="card-body overflow-x-auto">
-            {{-- Table Employee Monoton --}}
-            <table class="table">
-                <caption>{{ $employees->links() }}</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">Option</th>
-                        <th scope="col">Username</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Access</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($employees as $emp)
-                        <tr>
-                            <td class="d-flex">
-                                <button class="btn btn-light btn-sm mx-1" type="button" data-bs-toggle="modal"
-                                    data-bs-target="#edit-form{{ $emp->id }}">
-                                    <i class='bx bxs-pencil'></i>
-                                </button>
-                                <button class="btn btn-danger btn-sm mx-1" type="button" data-bs-toggle="modal"
-                                    data-bs-target="#delete-form">
-                                    <i class='bx bxs-trash-alt'></i>
-                                </button>
-                            </td>
-                            <td>{{ $emp->username }}</td>
-                            <td>{{ $emp->email }}</td>
-                            <td>
-                                @switch($emp->access)
-                                    @case('ADM')
-                                        ADM - Administrator
-                                    @break
+            {{-- Caption Header --}}
+            <div class="container mb-4 mt-3">
+                <div class="row">
+                    <div class="col-12">
+                        <b>Employee</b>
+                    </div>
+                    <div class="col-12">
+                        <span class="text-secondary">A list of all the employee in your account including their username,
+                            email and role.</span>
+                    </div>
+                </div>
+            </div>
+            {{-- Table Employee --}}
+            <div class="row">
+                <div class="col-12">
+                    <table class="table">
+                        <caption>{{ $employees->links() }}</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Option</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Role</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($employees as $emp)
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-light btn-sm mx-1" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#edit-form{{ $emp->id }}">
+                                            <i class='bx bxs-pencil'></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm mx-1" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#delete-form">
+                                            <i class='bx bxs-trash-alt'></i>
+                                        </button>
+                                    </td>
+                                    <td>{{ $emp->username }}</td>
+                                    <td>{{ $emp->email }}</td>
+                                    <td>
+                                        @switch($emp->access)
+                                            @case('ADM')
+                                                ADM - Administrator
+                                            @break
 
-                                    @case('EMP')
-                                        EMP - Employee
-                                    @break
+                                            @case('EMP')
+                                                EMP - Employee
+                                            @break
 
-                                    @default
-                                @endswitch
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                                            @default
+                                        @endswitch
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -69,6 +87,20 @@
             <div class="{{ session('ShowNewEntries') ? '' : 'd-none' }} card mb-3 mt-3 shadow"
                 style="border: none; border-radius: 30px;" id="new-form">
                 <div class="card-body overflow-x-auto">
+                    {{-- Caption Header --}}
+                    <div class="container mb-4 mt-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <b>New Employee</b>
+                            </div>
+                            <div class="col-12">
+                                <span class="text-secondary">This form field is mandatory, please fill
+                                    carefully.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Form New --}}
                     <form action="{{ route('emp.store') }}" method="POST">
                         @csrf
                         @method('POST')
@@ -268,12 +300,15 @@
                                     @enderror
                                 </div>
                             </div>
+                            <div class="row text-end">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-dark btn-sm" name="btn-update"
+                                        value="update">Save</button>
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
                         </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-dark btn-sm" name="btn-update"
-                            value="update">Save</button>
-                        <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

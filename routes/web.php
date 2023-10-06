@@ -34,10 +34,13 @@ Route::get('logout', [UserController::class, 'logout'])->name('emp.logout');
 Route::middleware('auth')->group(function () {
     // Employee CRUD
     Route::get('/dashboard/employee/', [DashboardController::class, 'index'])->name('emp.home');
-    Route::post('/dashboard/employee/save', [DashboardController::class, 'store'])->name('emp.store');
+    Route::post('/dashboard/employee/new', [DashboardController::class, 'store'])->name('emp.store');
     Route::post('/dashboard/employee/update/{id}', [DashboardController::class, 'update'])->name('emp.update');
     Route::delete('/dashboard/employee/delete/{id}', [DashboardController::class, 'destroy'])->name('emp.delete');
 
     // Category CRUD
     Route::get('/menu/category', [CategoryController::class, 'index'])->name('menu.cat');
+    Route::post('/menu/category/new', [CategoryController::class, 'store'])->name('menu.cat.store');
+    Route::post('/menu/category/update/{code}', [CategoryController::class, 'update'])->name('menu.cat.update');
+    Route::delete('/menu/category/delete/{code}', [CategoryController::class, 'destroy'])->name('menu.cat.delete');
 });

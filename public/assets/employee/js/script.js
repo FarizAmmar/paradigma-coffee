@@ -26,3 +26,5 @@ $("#btn-listing").click(function () {
     $("#view-form").removeClass("d-none");
     $("#new-breadcrumb").removeClass("active");
 });
+
+// Script For Category Menu
