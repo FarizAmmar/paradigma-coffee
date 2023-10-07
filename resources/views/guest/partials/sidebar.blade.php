@@ -26,40 +26,37 @@
             </div>
 
             {{-- Main Content Items --}}
-            @for ($i = 0; $i < 2; $i++)
-                <div class="border-bottom container my-2">
-                    <div class="row mb-2">
-                        <div class="col-1 d-flex align-items-center">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="select-items">
-                            </div>
-                        </div>
-                        <div class="col-12 col-lg-3 col-md-10 justify-content-center d-flex align-items-center">
-                            <img src="{{ asset('assets/images/menu/Iced Americano.webp') }}" class="img-fluid rounded"
-                                alt="americano">
-                        </div>
-                        <div class="col-12 col-lg-8 col-md-12">
-                            <h5 class="card-title">Americano</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet.</p>
+            <div class="border-bottom container my-2" id="cart-container">
+                <div class="row mb-2" id="menu-details">
+                    <div class="col-1 d-flex align-items-center">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="select-items">
                         </div>
                     </div>
-                    <div class="row my-2">
-                        <div class="col-12 col-md-12 col-lg-6">
-                            <h5>Rp.20.000</h5>
-                        </div>
-                        <div class="col-12 col-md-12 col-lg-6 text-end">
-                            <button class="cs-decrease shadow-sm">
-                                <i class='bx bx-minus'></i>
-                            </button>
-                            <input class="cs-form-quantity border-bottom text-center" type="number" name=""
-                                id="" value="1" min="1" max="99">
-                            <button class="cs-increase shadow-sm">
-                                <i class='bx bx-plus'></i>
-                            </button>
-                        </div>
+                    <div class="col-12 col-lg-3 col-md-10 justify-content-center d-flex align-items-center">
+                        <img src="" class="img-fluid rounded" alt="" id="menu-image">
+                    </div>
+                    <div class="col-12 col-lg-8 col-md-12">
+                        <h5 class="card-title" id="menu-title"></h5>
+                        <p class="card-text" id="menu-description"></p>
                     </div>
                 </div>
-            @endfor
+                <div class="row my-2">
+                    <div class="col-12 col-md-12 col-lg-6">
+                        <h5 id="menu-price">Rp.</h5>
+                    </div>
+                    <div class="col-12 col-md-12 col-lg-6 text-end">
+                        <button class="cs-decrease shadow-sm" onclick="DecreaseQty();">
+                            <i class='bx bx-minus'></i>
+                        </button>
+                        <input class="cs-form-quantity border-bottom text-center" type="number" name=""
+                            id="quantityInput" value="1" min="1" max="99">
+                        <button class="cs-increase shadow-sm" onclick="IncreaseQty();">
+                            <i class='bx bx-plus'></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
