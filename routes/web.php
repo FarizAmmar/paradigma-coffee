@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,4 +44,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/menu/category/new', [CategoryController::class, 'store'])->name('menu.cat.store');
     Route::post('/menu/category/update/{code}', [CategoryController::class, 'update'])->name('menu.cat.update');
     Route::delete('/menu/category/delete/{code}', [CategoryController::class, 'destroy'])->name('menu.cat.delete');
+
+    // Menu CRUD
+    Route::get('/menu', [MenuController::class, 'index'])->name('menu.menus');
+    Route::post('/menu/new', [MenuController::class, 'store'])->name('menu.menus.store');
+    Route::post('/menu/update/{id}', [MenuController::class, 'update'])->name('menu.menus.update');
+    Route::delete('/menu/delete/{id}', [MenuController::class, 'destroy'])->name('menu.menus.delete');
 });

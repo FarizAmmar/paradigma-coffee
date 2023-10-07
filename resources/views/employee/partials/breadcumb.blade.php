@@ -7,12 +7,13 @@
             <li class="d-none breadcrumb-item" aria-current="page" id="new-breadcrumb">New</li>
         </ol>
     </nav>
-@elseif ($title == 'Category')
+@elseif ($title == 'Category' || $title == 'Menu')
     <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('menu.cat') }}">Menu</a></li>
             <li class="breadcrumb-item" aria-current="page">Listing</li>
-            <li class="breadcrumb-item active" aria-current="page" id="view-breadcrumb">Category</li>
+            <li class="breadcrumb-item active" aria-current="page" id="view-breadcrumb">
+                {{ $title == 'Category' || $title == 'Menu' ? $title : '' }}</li>
         </ol>
     </nav>
 @endif

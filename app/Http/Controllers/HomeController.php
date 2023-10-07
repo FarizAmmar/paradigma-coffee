@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Menu;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -11,9 +13,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $categories = Category::all();
+        $menus = Menu::all();
         return view("guest.pages.menu", [
             'title' => 'Menu',
             'brand' => 'Paradigma Coffee',
+            'menus' => $menus
         ]);
     }
 

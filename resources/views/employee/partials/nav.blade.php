@@ -12,14 +12,15 @@
                 Entries</button>
         </li>
     </ul>
-@elseif($title == 'Category')
+@elseif($title == 'Category' || $title == 'Menu')
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <button class="nav-link {{ $title == 'Category' ? 'active' : 'text-secondary' }}"
-                type="button">Category</button>
+            <a href="{{ route('menu.cat') }}" class="nav-link {{ $title == 'Category' ? 'active' : 'text-secondary' }}"
+                type="button">Category</a>
         </li>
         <li class="nav-item">
-            <button class="nav-link {{ $title == 'Menu' ? 'active' : 'text-secondary' }}" type="button">Menu</button>
+            <a href="{{ route('menu.menus') }}"
+                class="nav-link {{ $title == 'Menu' ? 'active' : 'text-secondary' }}">Menu</a>
         </li>
     </ul>
 @endif

@@ -110,7 +110,7 @@ class CategoryController extends Controller
             session()->forget('ShowEditEntriesCat');
         }
 
-        return back()->with('success', 'The record has been successfully udpate.');
+        return back()->with('success', 'The record has been successfully updated.');
     }
 
     /**
