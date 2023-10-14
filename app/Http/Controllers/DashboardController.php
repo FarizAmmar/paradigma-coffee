@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CartEvents;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Foundation\Auth\User;
 
 class DashboardController extends Controller
@@ -14,9 +16,12 @@ class DashboardController extends Controller
     public function index()
     {
         $employees = User::latest()->paginate(10);
+        $categories = Category::all();
+
         return view('employee.pages.home', [
             'title' => 'Home',
             'employees' => $employees,
+            'categories' => $categories,
         ]);
     }
 

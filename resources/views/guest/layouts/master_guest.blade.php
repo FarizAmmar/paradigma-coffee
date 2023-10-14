@@ -18,46 +18,62 @@
 
     {{-- Jquery --}}
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    {{-- Pusher --}}
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 </head>
 
 <body>
-    {{-- Navbar --}}
-    <div class="container mt-3">
-        @include('guest.partials.navbar')
-    </div>
+    @if ($title != 'Invoice')
+        {{-- Navbar --}}
+        <div class="container mt-3">
+            @include('guest.partials.navbar')
+        </div>
 
-    {{-- Main and Sidebar --}}
-    <div class="container mb-5 mt-5">
-        <div class="row">
-            {{-- Main Content --}}
-            <div class="col-12 col-md-8">
-                @yield('container')
-            </div>
-            {{-- Sidebar --}}
-            @if ($title != 'Checkout')
-                <div class="col-4 d-none d-md-block d-lg-block">
-                    @include('guest.partials.sidebar')
+        {{-- Main and Sidebar --}}
+        <div class="container mb-5 mt-5">
+            <div class="row">
+                {{-- Main Content --}}
+                <div class="col-12 col-md-8">
+                    @yield('container')
                 </div>
-            @endif
+                {{-- Sidebar --}}
+                @if ($title != 'Checkout')
+                    <div class="col-4 d-none d-md-block d-lg-block">
+                        @include('guest.partials.sidebar')
+                    </div>
+                @endif
+            </div>
         </div>
-    </div>
 
-    {{-- Footer Desktop --}}
-    <footer class="fixed-bottom navbar navbar-expand-lg navbar-dark bg-dark d-none d-md-block">
+        {{-- Footer Desktop --}}
+        <footer class="fixed-bottom navbar navbar-expand-lg navbar-dark bg-dark d-none d-md-block">
+            <div class="container-fluid">
+                <div class="text-light mx-auto">
+                    Paradigma Coffee &copy; Copyright 2023
+                </div>
+                <div class="text-secondary mr-auto">
+                    <span>Version 1.0.0</span>
+                </div>
+            </div>
+        </footer>
+
+        {{-- Footer Mobile --}}
         <div class="container-fluid">
-            <div class="text-light mx-auto">
-                Paradigma Coffee &copy; Copyright 2023
-            </div>
-            <div class="text-secondary mr-auto">
-                <span>Version 1.0.0</span>
+            @include('guest.partials.footer')
+        </div>
+    @else
+        <div class="navbar navbar-expand-lg fixed-top">
+            <div class="container-fluid">
+                <a href="{{ route('reset.cookie') }}" class="btn btn-light btn-sm m-3 shadow-sm">
+                    <i class='bx bx-chevron-left'></i>
+                </a>
             </div>
         </div>
-    </footer>
 
-    {{-- Footer Mobile --}}
-    <div class="container-fluid">
-        @include('guest.partials.footer')
-    </div>
+        <div class="container-fluid">
+            @yield('container')
+        </div>
+    @endif
 
 
 
@@ -65,6 +81,7 @@
     <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}"></script>
     {{-- Custom Javascript --}}
     <script src="{{ asset('assets/js/script.js') }}"></script>
+
 </body>
 
 </html>

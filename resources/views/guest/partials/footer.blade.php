@@ -1,4 +1,4 @@
-@if ($title == 'Menu')
+@if ($title == 'Menus')
     <footer class="fixed-bottom navbar navbar-expand-lg navbar-light bg-trans d-md-none"
         style="height: 60px; backdrop-filter: blur(10px);">
         <div class="mx-auto">

@@ -1,40 +1,43 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light mt-4 rounded shadow">
-    <div class="container-fluid">
+@if ($title != 'Menus')
+    <nav class="navbar navbar-expand-sm navbar-light bg-light mt-4 rounded shadow">
+        <div class="container-fluid">
 
-        {{-- Menu --}}
-        <ul class="navbar-nav mb-lg-0 mb-2 me-auto">
-            <div class="row">
-                <div class="col">
-                    <li class="nav-item">
-                        <a class="nav-link {{ $title == 'Home' ? 'active' : '' }}" aria-current="page"
-                            href="{{ route('emp.home') }}">Dashboard</a>
-                    </li>
+            {{-- Menu --}}
+            <ul class="navbar-nav mb-lg-0 mb-2 me-auto">
+                <div class="row">
+                    <div class="col">
+                        <li class="nav-item">
+                            <a class="nav-link {{ $title == 'Home' ? 'active' : '' }}" aria-current="page"
+                                href="{{ route('emp.home') }}">Dashboard</a>
+                        </li>
+                    </div>
+                    <div class="col">
+                        <li class="nav-item">
+                            <a class="nav-link {{ $title == 'Menu' || $title == 'Category' ? 'active' : '' }}"
+                                href="{{ route('menu.cat') }}">Menu</a>
+                        </li>
+                    </div>
+                    <div class="col">
+                        <li class="nav-item">
+                            <a class="nav-link {{ $title == 'Waiting List' ? 'active' : '' }}"
+                                href="{{ route('order.waiting') }}">Order</a>
+                        </li>
+                    </div>
+                    <div class="col">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Report</a>
+                        </li>
+                    </div>
                 </div>
-                <div class="col">
-                    <li class="nav-item">
-                        <a class="nav-link {{ $title == 'Menu' || $title == 'Category' ? 'active' : '' }}"
-                            href="{{ route('menu.cat') }}">Menu</a>
-                    </li>
-                </div>
-                <div class="col">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Order</a>
-                    </li>
-                </div>
-                <div class="col">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Report</a>
-                    </li>
-                </div>
-            </div>
-        </ul>
+            </ul>
 
-        {{-- Exit --}}
-        <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#modal-exit">
-            <i class='bx bx-exit' style="font-size: 25px;"></i>
-        </button>
-    </div>
-</nav>
+            {{-- Exit --}}
+            <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#modal-exit">
+                <i class='bx bx-exit' style="font-size: 25px;"></i>
+            </button>
+        </div>
+    </nav>
+@endif
 
 
 <div class="modal" tabindex="-1" id="modal-exit">

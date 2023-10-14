@@ -1,12 +1,15 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\DashboardController;
+use App\Events\CartEvents;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\DashboardController;
+use App\Models\Menu;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,15 +22,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Menu
+// Guest Menu
 Route::get('/', [HomeController::class, 'index'])->name('guest.menu')->middleware('guest');
+Route::get('/reset', [HomeController::class, 'resetCookie'])->name('reset.cookie')->middleware('guest');
+Route::get('/inovice', [HomeController::class, 'invoice'])->name('guest.invoice')->middleware('guest');
 
-// Cart
+// Guest Cart Desktop
+Route::post('/order/menu/{uuid}/{menu_id}', [CartController::class, 'store'])->middleware('guest')->name('cart.store');
+
+// Guest Cart
 Route::get('/order/checkout', [CheckoutController::class, 'index'])->name('guest.cart')->middleware('guest');
+Route::post('/order/checkout/store', [CheckoutController::class, 'store'])->name('guest.cart.store')->middleware('guest');
+Route::post('/order/checkout/table', [CheckoutController::class, 'save_table'])->name('guest.cart.table')->middleware('guest');
+Route::get('/order/checkout/{uuid}/{payment}', [CheckoutController::class, 'payment'])->name('guest.cart.payment')->middleware('guest');
+
+
 
 // Login
 Route::get('/employee/login', [UserController::class, 'login'])->name('emp.login')->middleware('guest');
 Route::post('/employee/login', [UserController::class, 'authenticate'])->name('emp.login.auth');
+
 // Logout
 Route::get('logout', [UserController::class, 'logout'])->name('emp.logout');
 
@@ -50,4 +64,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/menu/new', [MenuController::class, 'store'])->name('menu.menus.store');
     Route::post('/menu/update/{id}', [MenuController::class, 'update'])->name('menu.menus.update');
     Route::delete('/menu/delete/{id}', [MenuController::class, 'destroy'])->name('menu.menus.delete');
+
+    // Order CRUD
+    Route::get('/order/waiting-list', [CheckoutController::class, 'waitingList'])->name('order.waiting');
+});
+
+
+// Get menu
+Route::get('/get-menu/{menu_id}', function (string $menu_id) {
+    $menu = Menu::find($menu_id);
+
+    return response()->json($menu);
 });

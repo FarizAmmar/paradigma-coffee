@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Category;
+use App\Models\Menu;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -16,7 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Employee
-        User::factory(5)->create();
+        User::factory(2)->create();
 
         // Admin
         User::create([
@@ -40,6 +41,24 @@ class DatabaseSeeder extends Seeder
         Category::create([
             'code' => 'SNC',
             'description' => 'Snack'
+        ]);
+
+
+        // Menus
+        Menu::create([
+            'name' => 'Green Mojito',
+            'description' => 'Mojito rasa melon dengan keindahannya',
+            'amount' => '28000',
+            'image_path' => '1696784034.jpg',
+            'category_code' => 'NON',
+        ]);
+
+        Menu::create([
+            'name' => 'Bungalaw Classic',
+            'description' => 'Coffee classic dengan black aren',
+            'amount' => '23000',
+            'image_path' => '1696784177.jpg',
+            'category_code' => 'COF',
         ]);
     }
 }

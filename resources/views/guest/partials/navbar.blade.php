@@ -11,7 +11,7 @@
         <a href="#" class="navbar-brand">{{ $brand ? $brand : '' }}</a>
 
         {{-- Filtering Menu --}}
-        @if ($title == 'Menu')
+        @if ($title == 'Menus')
             <div class="mr-auto">
                 <a href="#filtering" class="btn btn-dark btn-sm" role="button" data-bs-toggle="collapse">
                     <i class='bx bx-filter'></i>
@@ -30,9 +30,12 @@
     <div class="card card-body bg-light mt-2 rounded shadow" style="border: none;">
         <div class="container">
             <button class="btn btn-dark btn-sm mx-1 my-2">All</button>
-            <button class="btn btn-outline-dark btn-sm mx-1 my-2">Coffee</button>
-            <button class="btn btn-outline-dark btn-sm mx-1 my-2">Non Coffee</button>
-            <button class="btn btn-outline-dark btn-sm mx-1 my-2">Snacks</button>
+            @foreach ($categories as $cat)
+                <a href="#" class="btn btn-outline-dark btn-sm mx-1 my-2" name="btn-filter"
+                    value="{{ $cat->code }}">
+                    {{ $cat->description }}
+                </a>
+            @endforeach
         </div>
     </div>
 </div>

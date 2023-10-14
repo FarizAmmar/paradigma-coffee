@@ -53,24 +53,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($menus as $menu)
+                            @if ($menus->count() > 0)
+                                @foreach ($menus as $menu)
+                                    <tr>
+                                        <td>
+                                            <button class="btn btn-light btn-sm mx-1" type="button" data-bs-toggle="modal"
+                                                data-bs-target="#edit-form-menu{{ $menu->id }}">
+                                                <i class='bx bxs-pencil'></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-sm mx-1" type="button" data-bs-toggle="modal"
+                                                data-bs-target="#modal_delete_menu{{ $menu->id }}">
+                                                <i class='bx bxs-trash-alt'></i>
+                                            </button>
+                                        </td>
+                                        <td>{{ $menu->name }}</td>
+                                        <td>{{ $menu->description }}</td>
+                                        <td>Rp.{{ $menu->amount }}</td>
+                                        <td>{{ $menu->category->code . ' - ' . $menu->category->description }}</td>
+                                    </tr>
+                                @endforeach
+                            @else
                                 <tr>
-                                    <td>
-                                        <button class="btn btn-light btn-sm mx-1" type="button" data-bs-toggle="modal"
-                                            data-bs-target="#edit-form-menu{{ $menu->id }}">
-                                            <i class='bx bxs-pencil'></i>
-                                        </button>
-                                        <button class="btn btn-danger btn-sm mx-1" type="button" data-bs-toggle="modal"
-                                            data-bs-target="#modal_delete_menu{{ $menu->id }}">
-                                            <i class='bx bxs-trash-alt'></i>
-                                        </button>
+                                    <td class="text-center" colspan="5">
+                                        There is no record for this menus
                                     </td>
-                                    <td>{{ $menu->name }}</td>
-                                    <td>{{ $menu->description }}</td>
-                                    <td>Rp.{{ $menu->amount }}</td>
-                                    <td>{{ $menu->category->code . ' - ' . $menu->category->description }}</td>
                                 </tr>
-                            @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use App\Models\Category;
+use App\Events\CartEvents;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
