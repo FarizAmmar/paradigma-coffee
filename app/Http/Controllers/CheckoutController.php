@@ -7,31 +7,66 @@ use App\Models\Menu;
 use App\Models\Category;
 use App\Models\Checkout;
 use App\Events\CartEvents;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        // New
+        $uuid = $request->cookie('UUID');
+
+        if (!$uuid) {
+            $uuid = Str::uuid();
+
+            return redirect()->route('guest.menu')
+                ->cookie('UUID', $uuid, 60 * 24);
+        }
+
         $categories = Category::all();
         $menus = Menu::all();
+
+        $carts = Cart::where('uuid', $uuid)->get();
+        $groupCarts = $carts->groupBy('menu_id');
+
+        $summary = DB::table('carts')
+            ->selectRaw('uuid, SUM(menu_price) as total_amount')
+            ->where('uuid', $uuid)
+            ->groupBy('uuid')
+            ->first();
+
         return view('guest.pages.cart', [
             'title' => 'Checkout',
             'brand' => 'Your Cart',
             'categories' => $categories,
             'menus' => $menus,
+            'uuid' => $uuid,
+            'summary' => $summary,
+            'groupedCarts' => $groupCarts,
         ]);
     }
 
     public function waitingList()
     {
-        $orders = Checkout::latest()->paginate(10);
+        $orders = Checkout::where('order_status', 'W')->latest()->paginate(10);
         return view('employee.pages.order.waiting', [
             'title' => 'Waiting List',
             'orders' => $orders
+        ]);
+    }
+
+    public function order()
+    {
+
+        $orders = Checkout::where('order_status', 'P')->latest();
+        return view('employee.pages.order.order', [
+            'title' => 'Orders',
+            'orders' => $orders->get(),
         ]);
     }
 
@@ -41,8 +76,6 @@ class CheckoutController extends Controller
         $menu_ids = $request->input('menu_id');
         $select_items = $request->input('select-item');
         $quantityInputs = $request->input('quantityInput');
-
-        // dd($uuid, $menu_ids, $select_items);
 
         if ($request->has('delete-selected-items')) {
             if ($select_items != null) {
@@ -55,17 +88,16 @@ class CheckoutController extends Controller
             return back();
         }
 
-
-        if (!$this->Checkrecord($uuid)) {
-        }
-
-
-        for ($i = 0; $i < count($menu_ids); $i++) {
-            $checkout = new Checkout();
-            $checkout->uuid = $uuid;
-            $checkout->menu_id = $menu_ids[$i];
-            $checkout->order_qty = $quantityInputs[$i];
-            $checkout->save();
+        foreach ($menu_ids as $key => $menu_id) {
+            if (!$this->Checkrecord($uuid, $menu_id)) {
+                $checkout = new Checkout();
+                $checkout->uuid = $uuid;
+                $checkout->menu_id = $menu_id;
+                $checkout->order_qty = $quantityInputs[$key];
+                $checkout->save();
+            } else {
+                $this->UpdateRecord($uuid, $menu_id, $quantityInputs[$key]);
+            }
         }
 
         // Buat sesseion modal table no
@@ -87,7 +119,7 @@ class CheckoutController extends Controller
     public function payment(string $uuid, string $payment)
     {
         // Update payment method
-        $order = Checkout::where('uuid', $uuid)->update(['payment' => $payment]);
+        $order = Checkout::where('uuid', $uuid)->update(['payment' => $payment, 'order_status' => 'W']);
 
         if ($order) {
             $orders = Checkout::where('uuid', $uuid)->get();
@@ -104,15 +136,38 @@ class CheckoutController extends Controller
         return redirect(route('guest.invoice'));
     }
 
-    // Checkrecord function
-    private function Checkrecord(string $uuid): bool
+    public function orderStatus(string $uuid, string $status, string $menu_id)
+    {
+        Checkout::where(['uuid' => $uuid, 'menu_id' => $menu_id])->update(['order_status' => $status]);
+
+        return response()->json(['status' => $status]);
+    }
+
+    private function UpdateRecord(string $uuid, string $menu_id): bool
     {
         $lpass = false;
-        $order = Checkout::where('uuid', $uuid)->get();
 
-        if (!$order) {
+        $checkout = Checkout::where(['uuid' => $uuid, 'menu_id' => $menu_id])->first();
+        $cart = Cart::where(['uuid' => $uuid, 'menu_id' => $menu_id])->first();
+
+        $checkout->order_qty = $cart->order_qty;
+        $checkout->save();
+
+        if ($checkout->save()) {
             return $lpass = true;
-            dd($order);
+        }
+
+        return $lpass;
+    }
+
+    // Checkrecord function
+    private function Checkrecord(string $uuid, string $menu_id): bool
+    {
+        $lpass = false;
+        $order = Checkout::where(['uuid' => $uuid, 'menu_id' => $menu_id])->first();
+
+        if ($order != null) {
+            return $lpass = true;
         }
 
         return $lpass;

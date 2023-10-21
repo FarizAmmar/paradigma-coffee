@@ -10,6 +10,7 @@ use App\Events\CartEvents;
 use App\Models\TableOrder;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cookie;
 
 class HomeController extends Controller
@@ -28,19 +29,32 @@ class HomeController extends Controller
                 ->cookie('UUID', $uuid, 60 * 24);
         }
 
-        $categories = Category::all();
-        $menus = Menu::all();
+        $categories = Category::get();
+        $menus = Menu::latest();
+
+        // Check filter
+        session()->forget('OpenCollapse');
+        if (request('filter')) {
+            $menus = Menu::where('category_code', request('filter'));
+            session()->put('OpenCollapse', true);
+        }
 
         $carts = Cart::where('uuid', $uuid)->get();
+        $groupCarts = $carts->groupBy('menu_id');
 
-        $groupedCarts = $carts->groupBy('menu_id');
+        $summary = DB::table('carts')
+            ->selectRaw('uuid, SUM(menu_price) as total_amount')
+            ->where('uuid', $uuid)
+            ->groupBy('uuid')
+            ->first();
 
         return view("guest.pages.menu", [
             'title' => 'Menus',
             'brand' => 'Paradigma Coffee',
-            'menus' => $menus,
+            'menus' => $menus->get(),
             'categories' => $categories,
-            'groupedCarts' => $groupedCarts,
+            'carts' => $groupCarts,
+            'summary' => $summary,
             'uuid' => $uuid
         ]);
     }

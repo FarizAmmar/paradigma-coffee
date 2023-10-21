@@ -24,6 +24,10 @@
 
     {{-- Pusher --}}
     <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body>
@@ -79,7 +83,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center" id="cartModalBody">
-                    <!-- Konten modal akan ditampilkan di sini -->
                 </div>
             </div>
         </div>
@@ -146,20 +149,6 @@
             $("#table-orders").append(newRow);
 
         });
-
-        // var channel = pusher.subscribe('cart-channel');
-        // channel.bind('cart-event', function(data) {
-        //     // // Data yang diterima dari event
-        //     var menuData = data.cartItem;
-
-
-        //     // Perbarui tampilan dengan data yang diterima
-        //     document.getElementById('menu-image').src = menuData
-        //         .image_path; // Gantilah 'image_url' dengan properti yang sesuai
-        //     document.getElementById('menu-title').textContent = menuData.name;
-        //     document.getElementById('menu-description').textContent = menuData.description;
-        //     document.getElementById('menu-price').textContent = 'Rp. ' + menuData.amount;
-        // });
     </script>
 </body>
 

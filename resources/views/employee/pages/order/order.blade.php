@@ -27,17 +27,17 @@
                             <div class="col-6">
                                 <div class="row">
                                     <div class="col-12">
-                                        <b>Waiting List</b>
+                                        <b>Order Listing</b>
                                     </div>
                                     <div class="col-12">
-                                        <span class="text-secondary">A list of all waiting order for your employee
-                                            here.</span>
+                                        <span class="text-secondary">List of paid order, employee will give a done status
+                                            ater order was ready.</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-6 text-end">
-                                <button class="btn-outline-dark btn btn-sm" id="btn-new-cat" type="button"
-                                    onclick="OnButtonAccept()">Accept</button>
+                                <button class="btn-outline-dark btn btn-sm" id="btn-done" type="button"
+                                    onclick="OnButtonAccept()">Done</button>
                             </div>
                         </div>
                     </div>
@@ -53,6 +53,7 @@
                                 <th scope="col">Description</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Payment Method</th>
+                                <th scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody id="table-orders">
@@ -61,7 +62,7 @@
                                     <tr>
                                         <td>
                                             <input class="form-check-input" type="checkbox" value="{{ $order->id }}"
-                                                name="select-item[]" data-uuid="{{ $order->uuid }}" data-status="P"
+                                                name="select-item[]" data-uuid="{{ $order->uuid }}" data-status="D"
                                                 data-menu-id="{{ $order->menu_id }}">
                                         </td>
                                         <td>{{ $order->table_no }}</td>
@@ -78,6 +79,16 @@
                                                 @break
 
                                                 @default
+                                            @endswitch
+                                        </td>
+                                        <td>
+                                            @switch($order->order_status)
+                                                @case('P')
+                                                    Paid
+                                                @break
+
+                                                @default
+                                                    -
                                             @endswitch
                                         </td>
                                     </tr>

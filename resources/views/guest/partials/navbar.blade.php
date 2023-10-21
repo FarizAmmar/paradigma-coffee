@@ -29,13 +29,29 @@
 <div class="collapse" id="filtering">
     <div class="card card-body bg-light mt-2 rounded shadow" style="border: none;">
         <div class="container">
-            <button class="btn btn-dark btn-sm mx-1 my-2">All</button>
-            @foreach ($categories as $cat)
-                <a href="#" class="btn btn-outline-dark btn-sm mx-1 my-2" name="btn-filter"
-                    value="{{ $cat->code }}">
-                    {{ $cat->description }}
-                </a>
-            @endforeach
+            <form action="{{ route('guest.menu') }}" method="get">
+                @php
+                    $default = request('filter') == null ? 'btn-dark' : 'btn-outline-dark';
+                @endphp
+                <button class="btn {{ $default }} btn-sm mx-1 my-2" type="submit">All</button>
+                @foreach ($categories as $cat)
+                    @php
+                        $btnClass = $cat->code == request('filter') ? 'btn-dark' : 'btn-outline-dark';
+                    @endphp
+                    <button class="btn {{ $btnClass }} btn-sm mx-1 my-2" name="filter" value="{{ $cat->code }}"
+                        type="submit">
+                        {{ $cat->description }}
+                    </button>
+                @endforeach
+            </form>
         </div>
     </div>
 </div>
+
+@if (session('OpenCollapse') != false)
+    <script>
+        $(document).ready(function() {
+            $('#filtering').collapse('show');
+        });
+    </script>
+@endif

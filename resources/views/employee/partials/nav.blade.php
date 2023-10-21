@@ -25,7 +25,7 @@
                 class="nav-link {{ $title == 'Menu' ? 'active' : 'text-secondary' }}">Menu</a>
         </li>
     </ul>
-@elseif($title == 'Waiting List')
+@elseif($title == 'Waiting List' || $title == 'Orders')
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a href="{{ route('order.waiting') }}"
@@ -33,7 +33,16 @@
                 List</a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link {{ $title == 'Menu' ? 'active' : 'text-secondary' }}">Order</a>
+            <a href="{{ route('order.listing.paid') }}"
+                class="nav-link {{ $title == 'Orders' ? 'active' : 'text-secondary' }}">Order</a>
+        </li>
+    </ul>
+@elseif($title == 'Report')
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a href="{{ route('report') }}" class="nav-link {{ $title == 'Report' ? 'active' : 'text-secondary' }}"
+                type="button">Report
+                Listing</a>
         </li>
     </ul>
 @endif

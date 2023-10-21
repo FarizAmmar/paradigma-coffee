@@ -25,7 +25,8 @@
                     </div>
                     <div class="col">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Report</a>
+                            <a class="nav-link {{ $title == 'Report' ? 'active' : '' }}"
+                                href="{{ route('report') }}">Report</a>
                         </li>
                     </div>
                 </div>

@@ -2,8 +2,8 @@
 
 @section('container')
     <div class="d-flex align-items-center justify-content-center container" style="height: 100vh;">
-        <div class="row w-50">
-            <div class="col-12">
+        <div class="row w-100">
+            <div class="col-12 col-md-6 offset-md-3">
                 <div class="card rounded shadow" style="border: none;">
                     <div class="card-body">
                         @foreach ($groupedOrder as $items => $item)

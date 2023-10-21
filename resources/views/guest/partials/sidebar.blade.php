@@ -30,48 +30,58 @@
                 </div>
 
                 {{-- Main Content Items --}}
-                @if ($groupedCarts->count() > 0)
-                    @foreach ($groupedCarts as $menuId => $carts)
+                @if ($carts->count() > 0)
+                    @foreach ($carts as $items => $item)
                         @php
-                            $firstCart = $carts->first();
+                            $item = $item->first();
                         @endphp
                         <div class="border-bottom container my-2" id="cart-container">
                             <div class="row mb-2">
                                 <div class="col-12">
-                                    <h5 class="card-title" id="menu-title">{{ $firstCart->menu->name }}</h5>
+                                    <h5 class="card-title" id="menu-title">{{ $item->menu->name }}</h5>
                                 </div>
                             </div>
                             <div class="row my-2">
                                 <div class="col-1 d-flex align-items-center">
                                     <div class="form-check">
                                         <input type="hidden" name="user_id" value="{{ $uuid }}">
-                                        <input type="hidden" name="menu_id[]" value="{{ $firstCart->menu_id }}">
+                                        <input type="hidden" name="menu_id[]" value="{{ $item->menu_id }}"
+                                            data-menu-id="{{ $item->menu_id }}">
+                                        <input type="hidden" name="menu_price[]" value="{{ $item->menu->amount }}"
+                                            data-menu-price="{{ $item->menu->amount }}">
                                         <input class="form-check-input" type="checkbox" name="select-item[]"
-                                            value="{{ $firstCart->menu->id }}">
+                                            value="{{ $item->menu->id }}">
                                     </div>
                                 </div>
                                 <div
                                     class="col-12 col-lg-3 col-md-10 justify-content-center d-flex align-items-center mb-2">
-                                    <img src="{{ asset('/storage/uploads/' . $firstCart->menu->image_path) }}"
+                                    <img src="{{ asset('/storage/uploads/' . $item->menu->image_path) }}"
                                         class="img-fluid rounded" alt="" id="menu-image">
                                 </div>
                                 <div class="col-12 col-lg-8 col-md-12">
-                                    <p class="card-text" id="menu-description">{{ $firstCart->menu->description }}</p>
+                                    <p class="card-text" id="menu-description">{{ $item->menu->description }}</p>
                                 </div>
                                 <div class="col-12 col-md-12 col-lg-6 d-flex align-items-center pt-1">
-                                    <h5 id="menu-price">Rp.{{ $firstCart->menu->amount * count($carts) }}</h5>
+                                    <h5 class="total-price">Rp.{{ $item->menu->amount * $item->order_qty }}</h5>
                                 </div>
                                 <div class="col-12 col-md-12 col-lg-6 text-end">
                                     {{-- Quantity --}}
-                                    <input class="form-control text-center" type="number" name="quantityInput[]"
-                                        value="{{ count($carts) }}" min="1" max="99">
+                                    <button class="cs-decrease shadow-sm" type="button" onclick="OnDecrease(this)">
+                                        <i class='bx bx-minus'></i>
+                                    </button>
+                                    <input class="cs-form-quantity order-qty border-bottom text-center" type="number"
+                                        name="quantityInput[]" value="{{ $item->order_qty }}" min="1"
+                                        max="99">
+                                    <button class="cs-increase shadow-sm" type="button" onclick="OnIncrease(this)">
+                                        <i class='bx bx-plus'></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 @else
                     <div class="container my-5 text-center">
-                        <p>Keranjang Anda kosong.</p>
+                        <p>Your cart is empty.</p>
                     </div>
                 @endif
 
@@ -82,18 +92,7 @@
         {{-- Checkout --}}
         @php
             $totalSubtotal = 0;
-            // $discount = 5000;
-            // $tax = 3000;
         @endphp
-
-        @foreach ($groupedCarts as $menuId => $carts)
-            @php
-                $firstCart = $carts->first();
-                $subtotal = $firstCart->menu->amount * count($carts);
-                $totalSubtotal += $subtotal;
-            @endphp
-        @endforeach
-
         <div class="card rounded shadow" style="border:none;">
             <div class="card-header" style="border: none;">
                 Checkout
@@ -102,25 +101,14 @@
                 <div class="row">
                     <div class="col">Your cart subtotal</div>
                     <div class="col-1">:</div>
-                    <div class="col text-end">Rp.{{ $totalSubtotal }}</div>
+                    <div class="col text-end" id="sub-total">
+                        Rp.{{ $summary != null ? $summary->total_amount : $totalSubtotal }}
+                    </div>
                 </div>
-                {{-- <div class="row">
-                    <div class="col">Discount</div>
-                    <div class="col-1">:</div>
-                    <div class="col text-end">Rp.{{ $discount }}</div>
-                </div>
-                <div class="row">
-                    <div class="col">Tax</div>
-                    <div class="col-1">:</div>
-                    <div class="col text-end">Rp.{{ $tax }}</div>
-                </div> --}}
             </div>
             <div class="card-footer" style="border: none;">
                 <div class="row">
-                    <div class="col">Rp.{{ $totalSubtotal }}</div>
                     <div class="col text-end">
-                        {{-- data-bs-toggle="modal"
-                            data-bs-target="#modal-table-no" --}}
                         <button class="btn btn-dark btn-sm" type="submit">
                             Checkout
                         </button>
@@ -215,33 +203,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    $(document).ready(function() {
-        $('#inputNumber').on('input', function() {
-            var inputValue = $(this).val();
-            var numericValue = inputValue.replace(/[^0-9]/g, ''); // Hapus karakter non-angka
-            var limitedValue = numericValue.slice(0, 3); // Ambil maksimal 3 karakter
-
-            if (inputValue !== limitedValue) {
-                $(this).val(limitedValue);
-            }
-        });
-    });
-
-    function SelectAllCart() {
-        var selectAllCheckbox = document.getElementById("select-all");
-        var selectItemCheckboxes = document.getElementsByName("select-item[]");
-
-        // Periksa apakah "Select All" dicentang atau tidak
-        var isChecked = selectAllCheckbox.checked;
-
-        // Atur tindakan "Select All" pada semua elemen "select-item"
-        for (var i = 0; i < selectItemCheckboxes.length; i++) {
-            selectItemCheckboxes[i].checked = isChecked;
-        }
-    }
-</script>
 
 
 @if (session('ShowTableOrder'))

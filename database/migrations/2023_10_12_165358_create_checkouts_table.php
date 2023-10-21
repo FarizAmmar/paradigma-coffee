@@ -22,6 +22,7 @@ return new class extends Migration
                 ->on('menus')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
+            $table->string('order_status')->nullable();
             $table->timestamps();
         });
     }

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->string('uuid');
+            $table->string('order_qty');
+            $table->string('menu_price');
             $table->foreignId('menu_id')
                 ->references('id')
                 ->on('menus')
