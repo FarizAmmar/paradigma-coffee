@@ -14,14 +14,15 @@
                                 </div>
                                 <div class="col-3 d-flex">
                                     <input type="date" class="form-control form-control-sm" id="from-date"
-                                        name="from_date" value="{{ old('from_date') }}">
+                                        name="from_date"
+                                        value="{{ session('FromDate') != null ? session('FromDate') : '' }}">
                                 </div>
                                 <div class="col-2 text-end">
                                     <label for="to-date" class="col-form-label">To Date :</label>
                                 </div>
                                 <div class="col-3 d-flex">
                                     <input type="date" class="form-control form-control-sm" id="to-date" name="to_date"
-                                        value="{{ old('to_date') }}">
+                                        value="{{ session('Todate') != null ? session('Todate') : '' }}">
                                 </div>
                                 <div class="col-2 d-flex">
                                     <button class="btn btn-light btn-sm shadow" style="width: 15vh;">Filter</button>
@@ -70,27 +71,29 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    $(document).ready(function() {
-        // Dapatkan tanggal hari ini
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0');
-        var yyyy = today.getFullYear();
-        today = yyyy + '-' + mm + '-' + dd;
+@if (session('FromDate') != null && session('ToDate') != null)
+    <script>
+        $(document).ready(function() {
+            // Dapatkan tanggal hari ini
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var yyyy = today.getFullYear();
+            today = yyyy + '-' + mm + '-' + dd;
 
-        // Atur nilai default pada elemen input tanggal "To Date" ke hari ini
-        $('#to-date').val(today);
+            // Atur nilai default pada elemen input tanggal "To Date" ke hari ini
+            $('#to-date').val(today);
 
-        // Hitung tanggal 7 hari sebelum "To Date"
-        var sevenDaysAgo = new Date(today);
-        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-        var dd7 = String(sevenDaysAgo.getDate()).padStart(2, '0');
-        var mm7 = String(sevenDaysAgo.getMonth() + 1).padStart(2, '0');
-        var yyyy7 = sevenDaysAgo.getFullYear();
-        sevenDaysAgo = yyyy7 + '-' + mm7 + '-' + dd7;
+            // Hitung tanggal 7 hari sebelum "To Date"
+            var sevenDaysAgo = new Date(today);
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+            var dd7 = String(sevenDaysAgo.getDate()).padStart(2, '0');
+            var mm7 = String(sevenDaysAgo.getMonth() + 1).padStart(2, '0');
+            var yyyy7 = sevenDaysAgo.getFullYear();
+            sevenDaysAgo = yyyy7 + '-' + mm7 + '-' + dd7;
 
-        // Atur nilai default pada elemen input tanggal "From Date" ke 7 hari sebelum "To Date"
-        $('#from-date').val(sevenDaysAgo);
-    });
-</script>
+            // Atur nilai default pada elemen input tanggal "From Date" ke 7 hari sebelum "To Date"
+            $('#from-date').val(sevenDaysAgo);
+        });
+    </script>
+@endif

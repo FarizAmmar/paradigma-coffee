@@ -17,18 +17,29 @@ class ReportController extends Controller
             $fromDate = $request->input('from_date');
             $toDate = $request->input('to_date');
 
-            $report = Checkout::select(
-                'menu_id',
-                DB::raw('SUM(order_qty) as total_order_qty')
-            )
-                ->whereBetween('created_at', [$fromDate, $toDate])
-                ->where('order_status', 'D')
-                ->groupBy('menu_id')
-                ->get();
+            if ($fromDate == $toDate) {
+                $report = Checkout::select(
+                    'menu_id',
+                    DB::raw('SUM(order_qty) as total_order_qty')
+                )
+                    ->where('order_status', 'D')
+                    ->groupBy('menu_id')
+                    ->get();
+            } else {
+                $report = Checkout::select(
+                    'menu_id',
+                    DB::raw('SUM(order_qty) as total_order_qty')
+                )
+                    ->whereBetween('created_at', [$fromDate, $toDate])
+                    ->where('order_status', 'D')
+                    ->groupBy('menu_id')
+                    ->get();
+            }
+
+            session()->flash('FromDate', $fromDate);
+            session()->flash('Todate', $toDate);
         }
 
-        // Simpan data input dalam flash session
-        $request->flash();
 
         return view('employee.pages.report.report', [
             'title' => 'Report',

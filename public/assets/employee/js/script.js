@@ -68,7 +68,6 @@ function OnButtonAccept() {
                         break;
                     case "D":
                         window.location.href = "/order";
-                        alert("Pesanan sudah di terima");
                         break;
                     default:
                         break;
@@ -80,36 +79,6 @@ function OnButtonAccept() {
         });
     });
 }
-
-$(document).ready(function () {
-    // Dapatkan elemen input "From Date"
-    var fromDateInput = $("#from-date");
-
-    // Dapatkan tanggal "Today"
-    var today = new Date();
-    var year = today.getFullYear();
-    var month = String(today.getMonth() + 1).padStart(2, "0");
-    var day = String(today.getDate()).padStart(2, "0");
-    var todayString = year + "-" + month + "-" + day;
-
-    // Atur nilai "min" pada elemen input "From Date" ke "Today"
-    fromDateInput.attr("max", todayString);
-});
-
-$(document).ready(function () {
-    // Dapatkan elemen input "From Date"
-    var fromDateInput = $("#to-date");
-
-    // Dapatkan tanggal "Today"
-    var today = new Date();
-    var year = today.getFullYear();
-    var month = String(today.getMonth() + 1).padStart(2, "0");
-    var day = String(today.getDate()).padStart(2, "0");
-    var todayString = year + "-" + month + "-" + day;
-
-    // Atur nilai "min" pada elemen input "From Date" ke "Today"
-    fromDateInput.attr("max", todayString);
-});
 
 new DataTable("#myTables", {
     responsive: true,

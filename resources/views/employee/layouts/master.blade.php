@@ -136,9 +136,12 @@
                     break;
             }
 
+
             var newRow = `
             <tr>
-                <td><input class="form-check-input" type="checkbox" value="${data.order.id}" id="select-item[]"></td>
+                <td>
+                    <input class="form-check-input" type="checkbox" value="${data.order.id}" name="select-item[]" data-uuid="${data.order.uuid}" data-status="P" data-menu-id="${data.order.menu_id}">
+                </td>
                 <td>${data.order.table_no}</td>
                 <td>${menuName}</td>
                 <td>${data.order.order_qty}</td>

@@ -1,7 +1,7 @@
 @extends('guest.layouts.master_guest')
 
 @section('container')
-    <form action="/order/checkout/store" method="POST">
+    <form action="{{ route('guest.cart.store') }}" method="POST">
         @csrf
         <div class="container-fluid">
             <div class="border-bottom container">

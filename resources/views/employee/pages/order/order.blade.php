@@ -95,7 +95,7 @@
                                 @endforeach
                             @else
                                 <tr id="no-record">
-                                    <td class="text-center" colspan="5">
+                                    <td class="text-center" colspan="6">
                                         There is no record for this menus
                                     </td>
                                 </tr>
@@ -108,3 +108,17 @@
         </div>
     </div>
 @endsection
+
+<div class="modal" tabindex="-1" id="messageModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Pesanan sudah di terima.</p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -138,9 +138,10 @@ class CheckoutController extends Controller
 
     public function orderStatus(string $uuid, string $status, string $menu_id)
     {
+        session()->flash('MessageModal', true);
         Checkout::where(['uuid' => $uuid, 'menu_id' => $menu_id])->update(['order_status' => $status]);
 
-        return response()->json(['status' => $status]);
+        return response()->json(['status' => $status, 'message' => 'Pesanan sudah di terima.']);
     }
 
     private function UpdateRecord(string $uuid, string $menu_id): bool
