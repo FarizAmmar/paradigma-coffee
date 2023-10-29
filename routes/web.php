@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/order/waiting-list/status/{uuid}/{status}/{menu_id}', [CheckoutController::class, 'orderStatus'])->name('order.status');
     Route::get('/report', [ReportController::class, 'index'])->name('report');
     Route::post('/report', [ReportController::class, 'index'])->name('report.search');
+    Route::get('/report/print/{fromdate}/{todate}', [ReportController::class, 'generatePdf'])->name('print');
 });
 
 // Get menu
